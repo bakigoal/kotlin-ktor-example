@@ -18,6 +18,17 @@ val client = HttpClient(Jetty) {
     }
 }
 
+/**
+ * After you finish working with the HTTP client,
+ * you need to free up the resources: threads, connections, and CoroutineScope for coroutines
+ */
+fun close() = client.close()
+
+/**
+ * If you need to use HttpClient for a single request, call the use function
+ * HttpClient().use
+ */
+
 suspend fun request() {
     val response: HttpResponse = client.request("https://ktor.io/") {
         // Configure request parameters exposed by HttpRequestBuilder
@@ -27,6 +38,10 @@ suspend fun request() {
 
 suspend fun get() {
     val response: HttpResponse = client.get("https://ktor.io/")
+}
+
+suspend fun deserializeWithJsonPlugin() {
+    val customer: Customer = client.get("http://localhost:8080/customer/3")
 }
 
 suspend fun headers() {
